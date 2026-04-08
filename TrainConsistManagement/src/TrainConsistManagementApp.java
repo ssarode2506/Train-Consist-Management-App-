@@ -1,63 +1,50 @@
-/*
- * UC7: Sort Bogies by Capacity (Comparator)
- *
- * @author Mohith
- * @version 7.0
- */
-
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-
-class Bogie {
-    private String name;
-    private int capacity;
-
-    public Bogie(String name, int capacity) {
-        this.name = name;
-        this.capacity = capacity;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    @Override
-    public String toString() {
-        if (name.equals("AC Chair")) {
-            return name + " -> 56";
-        }
-        return name + " -> " + capacity;
-    }
-}
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TrainConsistManagementApp {
 
+    static class Bogie {
+        String name;
+        int capacity;
+
+        Bogie(String name, int capacity) {
+            this.name = name;
+            this.capacity = capacity;
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println("UC7 Sort Bogies by Capacity (Comparator)\n");
+
+        System.out.println("======================================");
+        System.out.println("UC9 - Group Bogies by Type");
+        System.out.println("======================================\n");
 
         List<Bogie> bogies = new ArrayList<>();
+
         bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("AC Chair", 56));
         bogies.add(new Bogie("First Class", 24));
-        bogies.add(new Bogie("General", 90));
+        bogies.add(new Bogie("Sleeper", 70));
+        bogies.add(new Bogie("AC Chair", 60));
 
-        System.out.println("Before Sorting:");
+        System.out.println("All Bogies:");
         for (Bogie b : bogies) {
-            System.out.println(b);
+            System.out.println(b.name + " -> " + b.capacity);
         }
 
-        bogies.sort(Comparator.comparingInt(Bogie::getCapacity));
+        Map<String, List<Bogie>> groupedBogies = bogies.stream()
+                .collect(Collectors.groupingBy(b -> b.name));
 
-        System.out.println("\nAfter Sorting by Capacity:");
-        for (Bogie b : bogies) {
-            System.out.println(b);
+        System.out.println("\nGrouped Bogies:");
+        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
+            System.out.println("\nBogie Type: " + entry.getKey());
+            for (Bogie b : entry.getValue()) {
+                System.out.println("Capacity -> " + b.capacity);
+            }
         }
 
-        System.out.println("\nUC7 sorting completed...");
+        System.out.println("\nUC9 grouping completed...");
     }
 }
